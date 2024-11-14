@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -7,16 +7,26 @@ const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  // Mettre à jour la position du curseur
   useEffect(() => {
+    let animationFrameId: number;
+
     const handleMouseMove = (event: MouseEvent) => {
-      setPosition({ x: event.clientX, y: event.clientY });
+      const { clientX, clientY } = event;
+
+      // Use requestAnimationFrame to reduce the frequency of updates
+      animationFrameId = requestAnimationFrame(() => {
+        setPosition({ x: clientX, y: clientY });
+      });
     };
+
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
-  // Ajouter un listener pour les liens
+  // Add event listeners for hover effects
   useEffect(() => {
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
@@ -44,7 +54,7 @@ const CustomCursor = () => {
         scale: isHovered ? 2 : 1,
         opacity: isHovered ? 0.8 : 0.6,
       }}
-      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+      transition={{ type: 'spring', stiffness: 150, damping: 20 }}
       style={{ width: 20, height: 20 }}
     />
   );
