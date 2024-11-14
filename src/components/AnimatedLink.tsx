@@ -1,42 +1,56 @@
 "use client";
-
-import {useState} from 'react';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface AnimatedLinkProps {
   href: string;
-  children: React.ReactNode;
   className?: string;
-  target?: string;
-  rel?: string;
+  children: React.ReactNode;
+  [x: string]: any;
 }
 
-const AnimatedLink: React.FC<AnimatedLinkProps> = ({ href, children, className, ...props }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const AnimatedLink: React.FC<AnimatedLinkProps> = ({
+  href,
+  className,
+  children,
+  ...props
+}) => {
   return (
     <motion.a
+      className={`relative inline-block overflow-hidden ${className}`}
       href={href}
-      className={`inline-block relative ${className}`}
-      initial={{ opacity: 1, rotateX: 0, y: 0 }} // Position initiale
-      whileHover={{
-        opacity: 0, // Disparition lors du hover
-        y: 0, // Se déplace vers le haut
-        rotateX: 180, // Effectue un flip
-      }}
-      animate={{
-        opacity: 1, // L'élément reste visible après l'animation
-        rotateX: 0, // Retourne à l'angle normal
-      }}
-      transition={{
-        duration: 0.6, // Durée du flip
-        ease: "easeInOut", // Transition fluide
-        delay: isHovered ? 0 : undefined, // L'animation ne se fait qu'une seule fois au début
-      }}
-      onHoverStart={() => setIsHovered(true)} // On marque le début du hover
-      onHoverEnd={() => setIsHovered(false)} // Quand on quitte le hover
-      {...props}
+      initial="rest"
+      whileHover="hover"
+      animate="rest"
     >
-      {children}
+      {/* Premier texte qui disparaît vers le haut */}
+      <motion.span
+        className="block"
+        variants={{
+          rest: { y: 0, opacity: 1 },
+          hover: {
+            y: -20,
+            opacity: 0,
+            transition: { duration: 0.4, ease: [0.6, -0.05, 0.01, 0.99] }
+          },
+        }}
+      >
+        {children}
+      </motion.span>
+      
+      {/* Deuxième texte qui apparaît depuis le bas */}
+      <motion.span
+        className="block absolute inset-0"
+        variants={{
+          rest: { y: 20, opacity: 0 },
+          hover: {
+            y: 0,
+            opacity: 1,
+            transition: { duration: 0.4, delay: 0.15, ease: [0.6, -0.05, 0.01, 0.99] }
+          },
+        }}
+      >
+        {children}
+      </motion.span>
     </motion.a>
   );
 };
