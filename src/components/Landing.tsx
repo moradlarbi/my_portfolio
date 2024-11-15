@@ -2,7 +2,7 @@
 
 import { motion,useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-
+import Link from 'next/link';
 const Landing = () => {
     const { scrollY } = useScroll();
     const yOffset = useTransform(scrollY, [0, 300], [0, -50]);
@@ -55,10 +55,14 @@ const Landing = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1, duration: 1 }}
           >
+            <Link href="/projects">
             <button className="relative px-8 py-3 bg-transparent text-white font-semibold rounded-lg border border-white hover:border-gray-300 transition-all duration-300 ease-in-out group">
-              Découvrir mon parcours
+              
+              Découvrir mes projets
+              
               <span className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-white animate-pulse"></span>
             </button>
+            </Link>
           </motion.div>
         </motion.div>
       </section>

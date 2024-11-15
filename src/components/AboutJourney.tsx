@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const experiences = [
   {
-    poste: 'Membre actif puis Lead du département Tech',
+    poste: 'Manager du département Dev',
     entreprise: 'ETIC (club étudiant)',
     periode: '2020 - 2023',
     missions: [
@@ -14,11 +14,11 @@ const experiences = [
       'Présentation de workshops (Git, React) et formations aux membres',
       'Mentorat lors des hackathons pour les nouveaux membres',
     ],
-    stack: ['Front-end'],
+    stack: ['Javascript','Python','Management','Automation'],
     image: '/images/etic.webp',
   },
   {
-    poste: 'Stagiaire en développement web puis Développeur Web Front-end',
+    poste: 'Développeur Web Front-end',
     entreprise: 'KB Dev (Oran)',
     periode: 'Mai 2022 - Décembre 2023',
     missions: [
@@ -27,11 +27,11 @@ const experiences = [
       'Collaboration en utilisant Scrum, Git, et Jira pour une approche Agile',
       'Participation au déploiement continu (CI/CD) avec GitHub Actions et Docker',
     ],
-    stack: ['React', 'Next.js', 'Strapi.js', 'Refine.js', 'Tailwind CSS'],
+    stack: ['React', 'Next.js', 'Strapi.js', 'Refine.js', 'Github','Agile','Figma','Jira','Wordpress'],
     image: '/images/kbdev.webp',
   },
   {
-    poste: 'Stagiaire puis Alternant Chef de Projet',
+    poste: 'Stagiaire -> Alternant Chef de Projet',
     entreprise: 'SFR',
     periode: 'Avril 2024 - Septembre 2025',
     missions: [
@@ -40,7 +40,7 @@ const experiences = [
       'Création de rapports à l\'aide de Tableau',
       'Développement d\'ETL pour le reporting avec Pentaho',
     ],
-    stack: ['Tableau', 'Pentaho', 'Gestion de projet'],
+    stack: ['Tableau', 'Pentaho', 'Gestion de projet','Sharepoint','Excel'],
     image: '/images/kbdev.webp',
   },
 ];
@@ -49,7 +49,7 @@ const formations = [
     formation: 'Ingénieur en Génie Logiciel',
     école: 'École Nationale Supérieure d\'Informatique (ESI) d\'Alger',
     periode: '2019 - 2023',
-    modules_majeurs: ['Algorithmique', 'Programmation orientée objet', 'Statistiques', 'Bases de données', 'Machine Learning'],
+    modules_majeurs: ['Algorithmique et structure de données', 'Programmation orientée objet', 'Statistiques', 'Bases de données', 'Machine Learning'],
     modules_mineurs: ['Réseaux', 'Analyse et algèbre', 'Électronique'],
   },
   {
@@ -63,7 +63,6 @@ const formations = [
 
 const AboutJourney = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   const fadeIn: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
