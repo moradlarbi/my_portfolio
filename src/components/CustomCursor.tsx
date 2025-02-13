@@ -1,88 +1,57 @@
-'use client';
+"use client"
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [isProjectHovered, setIsProjectHovered] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isPointer, setIsPointer] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   useEffect(() => {
-    let animationFrameId: number;
+    const updatePosition = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY })
+    }
 
-    const handleMouseMove = (event: MouseEvent) => {
-      const { clientX, clientY } = event;
-      animationFrameId = requestAnimationFrame(() => {
-        setPosition({ x: clientX, y: clientY });
-      });
-    };
+    const updateCursorType = () => {
+      const target = document.elementFromPoint(position.x, position.y)
+      setIsPointer(window.getComputedStyle(target as Element).cursor === "pointer")
+    }
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+    const handleMouseEnter = () => setIsHidden(false)
+    const handleMouseLeave = () => setIsHidden(true)
 
-  // Gestion des hover pour les liens et les projets
-  useEffect(() => {
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
-
-    const handleProjectEnter = () => setIsProjectHovered(true);
-    const handleProjectLeave = () => setIsProjectHovered(false);
-
-    // Sélectionne tous les liens et projets
-    const links = document.querySelectorAll('a');
-    const projects = document.querySelectorAll('.project-item');
-
-    links.forEach((link) => {
-      link.addEventListener('mouseenter', handleMouseEnter);
-      link.addEventListener('mouseleave', handleMouseLeave);
-    });
-
-    projects.forEach((project) => {
-      console.log(project)
-      project.addEventListener('mouseenter', handleProjectEnter);
-      project.addEventListener('mouseleave', handleProjectLeave);
-    });
+    window.addEventListener("mousemove", updatePosition)
+    window.addEventListener("mouseover", updateCursorType)
+    document.body.addEventListener("mouseenter", handleMouseEnter)
+    document.body.addEventListener("mouseleave", handleMouseLeave)
 
     return () => {
-      links.forEach((link) => {
-        link.removeEventListener('mouseenter', handleMouseEnter);
-        link.removeEventListener('mouseleave', handleMouseLeave);
-      });
-
-      projects.forEach((project) => {
-        project.removeEventListener('mouseenter', handleProjectEnter);
-        project.removeEventListener('mouseleave', handleProjectLeave);
-      });
-    };
-  }, []);
+      window.removeEventListener("mousemove", updatePosition)
+      window.removeEventListener("mouseover", updateCursorType)
+      document.body.removeEventListener("mouseenter", handleMouseEnter)
+      document.body.removeEventListener("mouseleave", handleMouseLeave)
+    }
+  }, [position.x, position.y])
 
   return (
     <motion.div
-      className={`fixed top-0 left-0 pointer-events-none z-50 rounded-full flex items-center justify-center font-semibold text-white`}
+      className="fixed top-0 left-0 pointer-events-none z-50 mix-blend-difference"
       animate={{
-        x: position.x - (isProjectHovered ? 50 : 10),
-        y: position.y - (isProjectHovered ? 50 : 10),
-        scale: isHovered ? 2 : isProjectHovered ? 4 : 1,
-        opacity: isHovered || isProjectHovered ? 0.9 : 0.6,
+        x: position.x - 16,
+        y: position.y - 16,
+        opacity: isHidden ? 0 : 1,
+        scale: isPointer ? 1.5 : 1,
       }}
-      transition={{ type: 'spring', stiffness: 150, damping: 20 }}
-      style={{
-        width: isProjectHovered ? 100 : 20,
-        height: isProjectHovered ? 100 : 20,
-        backgroundColor: isProjectHovered ? 'transparent' : 'black',
-        border: isProjectHovered ? '2px solid white' : 'none',
-      }}
+      transition={{ type: "spring", stiffness: 500, damping: 28 }}
     >
-      {isProjectHovered && (
-        <span className="text-white text-xs pointer-events-none">Découvrir</span>
-      )}
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="12" stroke="white" strokeWidth="2" />
+        {isPointer && <circle cx="16" cy="16" r="4" fill="white" />}
+      </svg>
     </motion.div>
-  );
-};
+  )
+}
 
-export default CustomCursor;
+export default CustomCursor
+

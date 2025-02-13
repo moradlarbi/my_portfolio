@@ -1,73 +1,96 @@
-'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import Link from 'next/link';
+"use client"
+
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
+import { Menu, X } from "lucide-react"
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Toggle the sidebar
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
       {/* Header */}
-      <header className="fixed w-full flex justify-between items-center bg-white shadow-md py-4 px-8 z-20">
-        <div className="text-2xl font-bold">My Portfolio</div>
-        <button onClick={toggleSidebar} className="text-3xl">
-          <AiOutlineMenu />
-        </button>
-      </header>
+      <header className="fixed w-full z-50">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <Link href="/" className="text-2xl font-bold text-white">
+              Portfolio
+            </Link>
 
-      {/* Sidebar Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-70 z-30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={toggleSidebar}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Sidebar Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.aside
-            className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center text-2xl space-y-8"
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', stiffness: 70, damping: 20 }}
-          >
-            <button
-              onClick={toggleSidebar}
-              className="absolute top-6 right-6 text-3xl"
-            >
-              <AiOutlineClose />
-            </button>
-            <nav className="flex flex-col items-center space-y-6">
-              <Link href="/" className="hover:text-blue-500" onClick={toggleSidebar}>
-                Home
-              </Link>
-              <Link href="/about" className="hover:text-blue-500" onClick={toggleSidebar}>
-                About
-              </Link>
-              <Link href="/projects" className="hover:text-blue-500" onClick={toggleSidebar}>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              <Link href="/projects" className="text-gray-300 hover:text-white transition-colors">
                 Projects
               </Link>
-              <Link href="/contact" className="hover:text-blue-500" onClick={toggleSidebar}>
+              <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
+                About
+              </Link>
+              <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
                 Contact
               </Link>
-            </nav>
-          </motion.aside>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
+              <Link
+                href="/contact"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors"
+              >
+                Let's Talk
+              </Link>
+            </div>
 
-export default Header;
+            {/* Mobile Menu Button */}
+            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 right-0 bg-black/95 border-t border-gray-800 md:hidden"
+            >
+              <nav className="flex flex-col p-4">
+                <Link
+                  href="/projects"
+                  className="px-4 py-3 text-gray-300 hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Projects
+                </Link>
+                <Link
+                  href="/about"
+                  className="px-4 py-3 text-gray-300 hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  About
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-4 py-3 text-gray-300 hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="/contact"
+                  className="mx-4 my-3 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-center transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Let's Talk
+                </Link>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+    </>
+  )
+}
+
+export default Header
+
