@@ -12,7 +12,7 @@ export const projects = [
     description:
       "Fresh Food is a progressive web application (PWA) with three distinct interfaces for customers, suppliers, and delivery personnel. It enables comprehensive order management, inventory tracking, and cash flow management, providing an integrated solution to optimize the supply chain and deliveries.",
     stack: ["Refine.js", "Typescript", "MUI", "Figma", "Jira", "GitHub"],
-    tag: ["Front-end", "web-development"],
+    tag: ["Front-end", "web-development","Work in Team"],
     image: "/images/freshfood1.png",
     gallery: ["/images/freshfood4.png", "/images/freshfood2.png", "/images/freshfood3.png"],
   },
@@ -22,9 +22,9 @@ export const projects = [
     excrept: "Comprehensive CRM and ERP system for resource, treasury, and invoice management.",
     description: "ERP is an all-in-one CRM and enterprise resource planning (ERP) system designed to streamline business operations. It provides tools for managing resources, treasury, invoicing, and customer relationships, enabling businesses to optimize workflows, track financial transactions, and improve overall efficiency.",
     stack: ["React", "MUI", "TypeScript", "GitHub","Docker","Node js"],
-    tag: ["Front-end", "web-development"],
-    image: "/images/project2.webp",
-    gallery: ["/images/restaurant-1.webp", "/images/restaurant-2.webp", "/images/restaurant-3.webp"],
+    tag: ["Front-end", "web-development","Work in Team"],
+    image: "/images/erp.png",
+    gallery: ["/images/erp1.png", "/images/erp2.png", "/images/erp3.png"],
   },
   {
     id: "waste-management",
@@ -45,8 +45,8 @@ export const projects = [
     description: "School Planning Management System is an intelligent scheduling solution that automates academic planning. It features an admin application for managing resources and leverages a Python script, triggered via a message broker, to generate optimized schedules. This system enhances efficiency by reducing manual workload and ensuring optimal resource allocation.",
     stack: [ "React","RabbitMQ", "Express.js", "SQL","Docker","Github","Pandas", "Python", "MUI"],
     tag: ["Back-end", "Front-end","message broker", "operational-research"],
-    image: "/images/project3.webp",
-    gallery: ["/images/waste-1.webp", "/images/waste-2.webp", "/images/waste-3.webp"],
+    image: "/images/schedaut1.png",
+    gallery: ["/images/schedaut2.png", "/images/schedaut3.png", "/images/schedaut4.png"],
     githubRepos: [{"name":"front", "url":"https://github.com/moradlarbi/SCHEDAUT_Front"},{"name":"front", "url":"https://github.com/moradlarbi/SCHEDAUT_Back"}]
   },
   {
