@@ -1,141 +1,139 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+import { motion, useAnimation } from "framer-motion"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 interface Project {
   id: string
   titre: string
   excrept: string
-  stack: string[]
   image: string
+  stack: string[]
 }
 
-const ProjectsCarousel = ({ projects }: { projects: Project[] }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+interface ProjectCarouselProps {
+  projects: Project[]
+  onProjectClick: (project: Project) => void
+}
 
-  const paginate = useCallback(
-    (newDirection: number) => {
-      setDirection(newDirection)
-      setCurrentIndex((prevIndex) => (prevIndex + newDirection + projects.length) % projects.length)
-    },
-    [projects.length]
-  )
+const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const controls = useAnimation()
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const nextProject = () => {
+    setCurrentIndex((prev) => (prev + 1) % projects.length)
+  }
+
+  const previousProject = () => {
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length)
+  }
 
   useEffect(() => {
-    timeoutRef.current = setInterval(() => {
-      paginate(1)
-    }, 5000)
+    let interval: NodeJS.Timeout
+
+    if (!isHovered) {
+      interval = setInterval(() => {
+        nextProject()
+      }, 5000)
+    }
 
     return () => {
-      if (timeoutRef.current) {
-        clearInterval(timeoutRef.current)
+      if (interval) {
+        clearInterval(interval)
       }
     }
-  }, [paginate]) // paginate est stable avec useCallback
+  }, [isHovered]) // Removed nextProject from dependencies
 
-  const project = projects[currentIndex]
+  const visibleProjects = [
+    projects[(currentIndex - 1 + projects.length) % projects.length],
+    projects[currentIndex],
+    projects[(currentIndex + 1) % projects.length],
+  ]
 
   return (
-    <section className="relative min-h-screen bg-black text-white overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
+    <section className="relative min-h-screen bg-black text-white py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-20">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6">Selected Works</h2>
+          <p className="text-xl text-gray-400 max-w-2xl">
+            Explore our portfolio of innovative digital solutions that showcase our expertise in creating immersive and
+            functional web experiences.
+          </p>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative z-10">
-            <h2 className="text-6xl font-bold mb-6">Projects</h2>
-            <p className="text-gray-400 text-lg mb-8">
-              Explore our portfolio of digital solutions that showcase our expertise in creating immersive and functional web experiences.
-            </p>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              >
-                <h3 className="text-3xl font-bold mb-4">{project.titre}</h3>
-                <p className="text-gray-400 mb-6">{project.excrept}</p>
-
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {project.stack.map((tech, index) => (
-                    <span key={index} className="px-3 py-1 bg-white/10 rounded-full text-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <Link href={`/projects/${project.id}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg font-medium"
-                  >
-                    View Project
-                  </motion.button>
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="relative aspect-[4/3] w-full">
-            <AnimatePresence initial={false} custom={direction}>
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                initial={{ x: direction > 0 ? 1000 : -1000, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: direction < 0 ? 1000 : -1000, opacity: 0 }}
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 },
-                }}
-                className="absolute w-full h-full"
-              >
-                <Image
-                  src={project.image || "/images/project1.webp"}
-                  alt={project.titre}
-                  fill
-                  className="object-cover rounded-lg"
-                  priority
-                />
-              </motion.div>
-            </AnimatePresence>
-
-            <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-              onClick={() => paginate(-1)}
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </button>
-            <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-              onClick={() => paginate(1)}
-            >
-              <ArrowRight className="w-6 h-6" />
-            </button>
-
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentIndex ? "bg-white" : "bg-white/50"
-                  }`}
-                  onClick={() => {
-                    setDirection(index > currentIndex ? 1 : -1)
-                    setCurrentIndex(index)
+        <div
+          ref={containerRef}
+          className="relative"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="relative h-[600px] overflow-hidden">
+            <div className="flex justify-center items-center gap-8">
+              {visibleProjects.map((project, idx) => (
+                <motion.div
+                  key={`${project.id}-${idx}`}
+                  className={`relative w-[800px] h-[500px] ${idx === 1 ? "z-20 scale-110" : "z-10 opacity-50"}`}
+                  initial={{ scale: 1, y: 0 }}
+                  animate={{
+                    scale: idx === 1 ? 1.1 : 1,
+                    y: idx === 1 ? -20 : 0,
                   }}
-                />
+                  transition={{ duration: 0.5 }}
+                  onClick={() => onProjectClick(project)}
+                >
+                  <div className="relative w-full h-full overflow-hidden rounded-lg transform perspective-1000 hover:rotate-y-10 transition-transform duration-500 cursor-pointer">
+                    <Image
+                      src={project.image || "/images/project1.webp"}
+                      alt={project.titre}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-500 hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80" />
+                    <div className="absolute bottom-0 left-0 p-8">
+                      <h3 className="text-2xl font-bold mb-2">{project.titre}</h3>
+                      <p className="text-gray-300 mb-4">{project.excrept}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.stack.slice(0, 3).map((tech, techIdx) => (
+                          <span key={techIdx} className="px-3 py-1 text-sm bg-white/10 rounded-full">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
+          </div>
+
+          <button
+            onClick={previousProject}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 p-4 rounded-full transition-colors"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={nextProject}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 p-4 rounded-full transition-colors"
+          >
+            <ArrowRight className="w-6 h-6" />
+          </button>
+
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex gap-2">
+            {projects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  idx === currentIndex ? "bg-white" : "bg-white/30"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -143,4 +141,5 @@ const ProjectsCarousel = ({ projects }: { projects: Project[] }) => {
   )
 }
 
-export default ProjectsCarousel
+export default ProjectCarousel
+

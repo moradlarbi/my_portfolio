@@ -24,12 +24,6 @@ const Header = () => {
               <Link href="/projects" className="text-gray-300 hover:text-white transition-colors">
                 Projects
               </Link>
-              <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
-                About
-              </Link>
-              <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
-                Contact
-              </Link>
               <Link
                 href="/contact"
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors"
@@ -61,20 +55,6 @@ const Header = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   Projects
-                </Link>
-                <Link
-                  href="/about"
-                  className="px-4 py-3 text-gray-300 hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="/contact"
-                  className="px-4 py-3 text-gray-300 hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Contact
                 </Link>
                 <Link
                   href="/contact"

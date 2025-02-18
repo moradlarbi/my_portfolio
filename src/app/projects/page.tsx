@@ -1,44 +1,81 @@
 "use client"
 
-import ProjectsCarousel from "@/components/ProjectsCarousel"
+import { useState } from "react"
+import ProjectCarousel from "@/components/ProjectsCarousel"
+import { useRouter } from "next/navigation"
 
-const projects = [
+export const projects = [
   {
     id: "fresh-food",
     titre: "Fresh Food",
-    excrept: "Progressive Web App pour la gestion de la livraison et de la chaîne d'approvisionnement.",
+    excrept: "Progressive Web App for delivery and supply chain management.",
     description:
-      "Fresh Food est une application progressive web (PWA) avec trois interfaces distinctes pour les clients, les fournisseurs et les livreurs. Elle permet une gestion complète des commandes, des stocks et de la trésorerie, offrant une solution intégrée pour optimiser la chaîne d'approvisionnement et les livraisons.",
+      "Fresh Food is a progressive web application (PWA) with three distinct interfaces for customers, suppliers, and delivery personnel. It enables comprehensive order management, inventory tracking, and cash flow management, providing an integrated solution to optimize the supply chain and deliveries.",
     stack: ["Refine.js", "Typescript", "MUI", "Figma", "Jira", "GitHub"],
     tag: ["Front-end", "web-development"],
-    image: "/images/project1.webp",
+    image: "/images/freshfood1.png",
+    gallery: ["/images/freshfood4.png", "/images/freshfood2.png", "/images/freshfood3.png"],
   },
   {
-    id: "Lamsaty",
-    titre: "Restaurant Management App",
-    excrept: "Progressive Web App pour la gestion complète des opérations d'un restaurant.",
-    description:
-      "Cette application progressive web (PWA) permet aux restaurants de gérer efficacement leurs opérations. Elle inclut des fonctionnalités de gestion des stocks, de prise de commande client, de facturation, ainsi que de gestion de la trésorerie et du personnel interne.",
-    stack: ["React", "MUI", "TypeScript", "GitHub"],
+    id: "erp",
+    titre: "ERP",
+    excrept: "Comprehensive CRM and ERP system for resource, treasury, and invoice management.",
+    description: "ERP is an all-in-one CRM and enterprise resource planning (ERP) system designed to streamline business operations. It provides tools for managing resources, treasury, invoicing, and customer relationships, enabling businesses to optimize workflows, track financial transactions, and improve overall efficiency.",
+    stack: ["React", "MUI", "TypeScript", "GitHub","Docker","Node js"],
     tag: ["Front-end", "web-development"],
-    image: "/images/project1.webp",
+    image: "/images/project2.webp",
+    gallery: ["/images/restaurant-1.webp", "/images/restaurant-2.webp", "/images/restaurant-3.webp"],
   },
   {
-    id: "PFE",
-    titre: "Système de Gestion de Collecte des Déchets",
-    excrept: "Solution intelligente pour la gestion optimisée des zones de collecte et des trajets des livreurs.",
+    id: "waste-management",
+    titre: "Waste Collection Management System",
+    excrept: "Smart solution for optimized collection zone and route management.",
     description:
-      "Projet de fin d'études pour le Master en Génie Logiciel. Ce système comprend une application admin pour la gestion des zones, des points de collecte, et des poubelles, ainsi qu'une application dédiée aux livreurs.",
-    stack: ["Express.js", "Python", "Flask", "React", "MUI", "Google Maps API"],
-    tag: ["Back-end", "Front-end", "Web-development"],
-    image: "/images/project1.webp",
+      "Final year project for Master's in Software Engineering. This system includes an admin application for managing zones, collection points, and bins, as well as a dedicated application for delivery personnel. Thanks to an operations research (OR) algorithm integrated with the Google Maps API, the application optimizes routes for delivery personnel. Additionally, a prediction model based on historical waste generation data in each zone allows for more efficient planning of collection point installation.",
+    stack: ["Express.js", "Python", "Flask", "Pandas", "NumPy", "React", "MUI", "Google Maps API"],
+    tag: ["Back-end", "Front-end", "operational-research", "Web-development", "machine-learning"],
+    image: "/images/project3.webp",
+    gallery: ["/images/waste-1.webp", "/images/waste-2.webp", "/images/waste-3.webp"],
+    githubRepos: [{"name":"admin", "url":"https://github.com/moradlarbi/node_app"},{"name":"Model", "url":"https://github.com/moradlarbi/model_waste_prediction"}]
+  },
+  {
+    id: "Schedaut",
+    titre: "School Planning management System",
+    excrept: "Smart solution for automatic planning management",
+    description: "School Planning Management System is an intelligent scheduling solution that automates academic planning. It features an admin application for managing resources and leverages a Python script, triggered via a message broker, to generate optimized schedules. This system enhances efficiency by reducing manual workload and ensuring optimal resource allocation.",
+    stack: [ "React","RabbitMQ", "Express.js", "SQL","Docker","Github","Pandas", "Python", "MUI"],
+    tag: ["Back-end", "Front-end","message broker", "operational-research"],
+    image: "/images/project3.webp",
+    gallery: ["/images/waste-1.webp", "/images/waste-2.webp", "/images/waste-3.webp"],
+    githubRepos: [{"name":"front", "url":"https://github.com/moradlarbi/SCHEDAUT_Front"},{"name":"front", "url":"https://github.com/moradlarbi/SCHEDAUT_Back"}]
+  },
+  {
+    id: "gantt-frappe",
+    titre: "Gantt_Frappe",
+    excrept: "Contribution to an open-source Gantt chart generation project.",
+    description:
+      "Participation in an open-source project aimed at improving a web application for generating Gantt charts. The contribution involved making the Gantt view dynamic by allowing users to choose the time unit (day, week, month, etc.) and display step. Additionally, I added functionality to export diagrams in various formats (Excel, CSV, etc.) for flexible use adapted to user needs.",
+    stack: ["JavaScript", "HTML", "CSS", "GitHub"],
+    tag: ["Front-end", "Web-development","Open source contribution"],
+    image: "/images/frappe.png",
+    gallery: ["/images/frappe.png", "/images/frappe2.png", "/images/frappe3.png"],
+    liveUrl: "https://frappe.io/gantt",
+    githubUrl: "https://github.com/frappe/gantt",
   },
 ]
 
 const ProjectsPage = () => {
+  const router = useRouter()
+  const [selectedProject, setSelectedProject] = useState(null)
+
+  const handleProjectClick = (project : any) => {
+    setSelectedProject(project)
+    router.push(`/projects/${project.id}`)
+  }
+
   return (
     <div className="min-h-screen bg-black">
-      <ProjectsCarousel projects={projects} />
+      <ProjectCarousel projects={projects} onProjectClick={handleProjectClick} />
     </div>
   )
 }

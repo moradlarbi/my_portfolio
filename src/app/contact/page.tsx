@@ -1,35 +1,57 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from 'next/image';
+import type React from "react"
+
+import { useState, useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
+import emailjs from "@emailjs/browser"
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+    name: "",
+    email: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
-  const { scrollY } = useScroll();
-  const yOffset = useTransform(scrollY, [0, 300], [0, -100]);
+  const form = useRef<HTMLFormElement>(null)
+
+  const { scrollY } = useScroll()
+  const yOffset = useTransform(scrollY, [0, 300], [0, -100])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Merci pour votre message !');
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        form.current!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+      )
+
+      setSubmitStatus("success")
+      setFormData({ name: "", email: "", message: "" })
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black text-white">
-      {/* Image de fond avec effet de parallaxe */}
-      <motion.div
-        className="absolute inset-0 -z-10"
-        style={{ y: yOffset }}
-      >
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-black text-white">
+      {/* Background image with parallax effect */}
+      <motion.div className="absolute inset-0 -z-10" style={{ y: yOffset }}>
         <Image
           src="/images/background.jpg"
           alt="Background"
@@ -45,30 +67,31 @@ const Contact = () => {
         style={{ y: yOffset }}
       />
 
-      {/* Texte principal avec animation */}
+      {/* Main text with animation */}
       <motion.h1
         className="text-4xl md:text-7xl font-bold mb-12 text-center"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
         Let's Start a New Project Together 🚀
       </motion.h1>
 
-      {/* Formulaire de contact avec animations fluides */}
+      {/* Contact form with smooth animations */}
       <motion.form
+        ref={form}
         onSubmit={handleSubmit}
         className="w-full max-w-2xl mx-auto flex flex-col gap-8 p-6 bg-black bg-opacity-50 rounded-lg shadow-lg"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
       >
-        {/* Champ Nom */}
+        {/* Name field */}
         <motion.div className="relative">
           <input
             type="text"
             name="name"
-            placeholder="Votre nom"
+            placeholder="Your name"
             value={formData.name}
             onChange={handleChange}
             required
@@ -76,12 +99,12 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Champ Email */}
+        {/* Email field */}
         <motion.div className="relative">
           <input
             type="email"
             name="email"
-            placeholder="Votre email"
+            placeholder="Your email"
             value={formData.email}
             onChange={handleChange}
             required
@@ -89,11 +112,11 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Champ Message */}
+        {/* Message field */}
         <motion.div className="relative">
           <textarea
             name="message"
-            placeholder="Votre message"
+            placeholder="Your message"
             value={formData.message}
             onChange={handleChange}
             required
@@ -102,18 +125,26 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Bouton d'envoi avec effet de surbrillance */}
+        {/* Submit button with highlight effect */}
         <motion.button
           type="submit"
-          className="relative py-3 px-8 bg-transparent border border-white text-white font-semibold rounded-lg overflow-hidden hover:bg-white hover:text-black transition-all duration-300 group"
+          disabled={isSubmitting}
+          className="relative py-3 px-8 bg-transparent border border-white text-white font-semibold rounded-lg overflow-hidden hover:bg-white hover:text-black transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.05 }}
         >
           <span className="absolute inset-0 bg-gradient-to-r from-white via-gray-400 to-white opacity-0 group-hover:opacity-10 transition-opacity duration-500"></span>
-          Envoyer le message
+          {isSubmitting ? "Sending..." : "Send Message"}
         </motion.button>
+
+        {/* Status messages */}
+        {submitStatus === "success" && <p className="text-green-500 text-center">Message sent successfully!</p>}
+        {submitStatus === "error" && (
+          <p className="text-red-500 text-center">Failed to send message. Please try again.</p>
+        )}
       </motion.form>
     </section>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact
+

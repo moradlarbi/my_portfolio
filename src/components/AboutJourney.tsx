@@ -1,163 +1,218 @@
-'use client';
+"use client"
 
-import React, { useEffect, useState } from 'react';
-import { motion, useAnimation, Variants } from 'framer-motion';
-import Image from 'next/image';
+import { useRef } from "react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import Image from "next/image"
 
 const experiences = [
   {
-    poste: 'Manager du département Dev',
-    entreprise: 'ETIC (club étudiant)',
-    periode: '2020 - 2023',
+    poste: "Dev Department Manager",
+    entreprise: "ETIC (student club)",
+    periode: "2020 - 2023",
     missions: [
-      'Développement des sites web pour les événements du club',
-      'Présentation de workshops (Git, React) et formations aux membres',
-      'Mentorat lors des hackathons pour les nouveaux membres',
+      "Website development for club events",
+      "Workshops presentation (Git, React) and member training",
+      "Mentoring during hackathons for new members",
     ],
-    stack: ['Javascript','Python','Management','Automation'],
-    image: '/images/etic.webp',
+    stack: ["Javascript", "Python", "Management", "Automation"],
+    image: "/images/training1.webp",
   },
   {
-    poste: 'Développeur Web Front-end',
-    entreprise: 'KB Dev (Oran)',
-    periode: 'Mai 2022 - Décembre 2023',
+    poste: "Front-end Web Developer",
+    entreprise: "KB Dev (Oran)",
+    periode: "May 2022 - December 2023",
     missions: [
-      'Développement avec des technologies modernes : Strapi.js, Refine.js, React, Next.js, Tailwind CSS, MUI',
-      'Exécution de tests d\'applications avec SonarQube et Selenium',
-      'Collaboration en utilisant Scrum, Git, et Jira pour une approche Agile',
-      'Participation au déploiement continu (CI/CD) avec GitHub Actions et Docker',
+      "Development with modern technologies: Strapi.js, Refine.js, React, Next.js, Tailwind CSS, MUI",
+      "Application testing with SonarQube and Selenium",
+      "Collaboration using Scrum, Git, and Jira for an Agile approach",
+      "Participation in continuous deployment (CI/CD) with GitHub Actions and Docker",
     ],
-    stack: ['React', 'Next.js', 'Strapi.js', 'Refine.js', 'Github','Agile','Figma','Jira','Wordpress'],
-    image: '/images/kbdev.webp',
+    stack: ["React", "Next.js", "Strapi.js", "Refine.js", "Github", "Agile", "Figma", "Jira", "Wordpress"],
+    image: "/images/kb.jpg",
   },
   {
-    poste: 'Stagiaire -> Alternant Chef de Projet',
-    entreprise: 'SFR',
-    periode: 'Avril 2024 - Septembre 2025',
+    poste: "Intern -> Project Manager Apprentice",
+    entreprise: "SFR",
+    periode: "April 2024 - September 2025",
     missions: [
-      'Conception d\'un outil de gestion de projets',
-      'Modélisation des processus de gestion de projets',
-      'Création de rapports à l\'aide de Tableau',
-      'Développement d\'ETL pour le reporting avec Pentaho',
+      "Design of a project management tool",
+      "Modeling of project management processes",
+      "Report creation using Tableau",
+      "ETL development for reporting with Pentaho",
     ],
-    stack: ['Tableau', 'Pentaho', 'Gestion de projet','Sharepoint','Excel'],
-    image: '/images/kbdev.webp',
+    stack: ["Tableau", "Pentaho", "Project Management", "Sharepoint", "Excel"],
+    image: "/images/kbdev.webp",
   },
-];
+]
+
 const formations = [
   {
-    formation: 'Ingénieur en Génie Logiciel',
-    école: 'École Nationale Supérieure d\'Informatique (ESI) d\'Alger',
-    periode: '2019 - 2023',
-    modules_majeurs: ['Algorithmique et structure de données', 'Programmation orientée objet', 'Statistiques', 'Bases de données', 'Machine Learning'],
-    modules_mineurs: ['Réseaux', 'Analyse et algèbre', 'Électronique'],
+    formation: "Software Engineering",
+    école: "National School of Computer Science (ESI) Algiers",
+    periode: "2019 - 2023",
+    modules_majeurs: [
+      "Algorithms and data structures",
+      "Object-oriented programming",
+      "Statistics",
+      "Databases",
+      "Machine Learning",
+    ],
+    modules_mineurs: ["Networks", "Analysis and algebra", "Electronics"],
   },
   {
-    formation: 'Master MIAGE - Ingénierie du Web',
-    école: 'Université Paris-Saclay (Évry)',
-    periode: '2023 - 2025',
-    modules_majeurs: ['Développement web', 'Gestion de projet', 'Architecture logicielle', 'Bases de données'],
-    modules_mineurs: ['Gestion financière', 'Droit numérique', 'Recherche opérationnelle', 'Analyse de données'],
+    formation: "MIAGE Master - Web Engineering",
+    école: "Paris-Saclay University (Évry)",
+    periode: "2023 - 2025",
+    modules_majeurs: ["Web development", "Project management", "Software architecture", "Databases"],
+    modules_mineurs: ["Financial management", "Digital law", "Operational research", "Data analysis"],
   },
-];
+]
 
-const AboutJourney = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const fadeIn: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+const ExperienceCard = ({ experience, index }: { experience: (typeof experiences)[0]; index: number }) => {
+  const cardRef = useRef(null)
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" })
 
   return (
-    <section className="relative max-w-5xl mx-auto py-20 px-4">
-      {/* Timeline */}
-      <div className="relative border-l-4 border-gray-300 pl-8 space-y-16">
-        {experiences.map((exp, index) => (
-          <motion.div
-            key={index}
-            className={`relative group cursor-pointer`}
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeIn}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            {/* Point on the timeline */}
-            <span className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full"></span>
-            
-            {/* Experience Card */}
-            <div className={`p-6 bg-white shadow-lg rounded-lg transition-all ${hoveredIndex === index ? 'scale-105' : ''}`}>
-              <h3 className="text-2xl font-semibold">{exp.poste}</h3>
-              <p className="text-gray-500">{exp.entreprise} - {exp.periode}</p>
-              <ul className="list-disc pl-6 mt-4 space-y-2 text-gray-700">
-                {exp.missions.map((mission, idx) => (
-                  <li key={idx}>{mission}</li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap gap-2 mt-4">
-                {exp.stack.map((tech, idx) => (
-                  <span key={idx} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Image on Hover */}
-            {hoveredIndex === index && (
-              <motion.div
-                className="fixed top-1/2 right-10 transform -translate-y-1/2 z-50"
-                initial={{ opacity: 0, rotate: -10 }}
-                animate={{ opacity: 1, rotate: 0, transition: { duration: 0.5 } }}
-                exit={{ opacity: 0, rotate: -10 }}
-              >
-                <Image
-                  src={exp.image}
-                  alt={exp.poste}
-                  width={300}
-                  height={200}
-                  className="rounded-lg shadow-lg"
-                />
-              </motion.div>
-            )}
-          </motion.div>
-        ))}
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="relative grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/5 rounded-xl p-8 backdrop-blur-sm"
+    >
+      <div className="space-y-4">
+        <h3 className="text-2xl font-bold text-white">{experience.poste}</h3>
+        <p className="text-purple-400">
+          {experience.entreprise} - {experience.periode}
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-gray-300">
+          {experience.missions.map((mission, idx) => (
+            <li key={idx}>{mission}</li>
+          ))}
+        </ul>
+        <div className="flex flex-wrap gap-2 mt-4">
+          {experience.stack.map((tech, idx) => (
+            <span key={idx} className="px-3 py-1 text-sm bg-white/10 rounded-full text-purple-300">
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
-       {/* Section Formations Académiques */}
-       <h2 className="text-4xl font-bold mt-20 mb-12 text-center">Mon Parcours Académique</h2>
-      <div className="space-y-12">
-        {formations.map((formation, index) => (
-          <motion.div
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          >
-            <h3 className="text-2xl font-semibold">{formation.formation}</h3>
-            <p className="text-gray-500">{formation.école} - {formation.periode}</p>
-            <div className="mt-4">
-              <h4 className="font-semibold">Modules Majeurs:</h4>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {formation.modules_majeurs.map((module, idx) => (
-                  <span key={idx} className="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">
-                    {module}
-                  </span>
-                ))}
-              </div>
-              <h4 className="font-semibold mt-4">Modules Mineurs:</h4>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {formation.modules_mineurs.map((module, idx) => (
-                  <span key={idx} className="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm">
-                    {module}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        ))}
+      <div className="relative h-[200px] md:h-full rounded-xl overflow-hidden">
+        <Image
+          src={experience.image || "/placeholder.svg"}
+          alt={experience.entreprise}
+          layout="fill"
+          objectFit="contain"
+          className="transition-transform duration-500 hover:scale-105"
+        />
+      </div>
+    </motion.div>
+  )
+}
+
+const EducationCard = ({ formation, index }: { formation: (typeof formations)[0]; index: number }) => {
+  const cardRef = useRef(null)
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.8, delay: index * 0.2 }}
+      className="bg-white/5 rounded-xl p-8 backdrop-blur-sm"
+    >
+      <h3 className="text-2xl font-bold text-white mb-2">{formation.formation}</h3>
+      <p className="text-purple-400 mb-4">
+        {formation.école} - {formation.periode}
+      </p>
+
+      <div className="space-y-4">
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-2">Major Modules</h4>
+          <div className="flex flex-wrap gap-2">
+            {formation.modules_majeurs.map((module, idx) => (
+              <span key={idx} className="px-3 py-1 text-sm bg-purple-500/20 rounded-full text-purple-300">
+                {module}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-2">Minor Modules</h4>
+          <div className="flex flex-wrap gap-2">
+            {formation.modules_mineurs.map((module, idx) => (
+              <span key={idx} className="px-3 py-1 text-sm bg-blue-500/20 rounded-full text-blue-300">
+                {module}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+const AboutJourney = () => {
+  const { scrollY } = useScroll()
+  const y1 = useTransform(scrollY, [0, 300], [0, 100])
+  const y2 = useTransform(scrollY, [0, 300], [0, -100])
+
+  return (
+    <section className="relative min-h-screen bg-black text-white py-20 overflow-hidden">
+      {/* Background Effects */}
+      <motion.div
+        className="absolute top-0 right-0 w-1/3 h-screen bg-gradient-to-bl from-purple-600 via-blue-600 to-transparent opacity-20 blur-3xl"
+        style={{ y: y1 }}
+      />
+      <motion.div
+        className="absolute top-0 left-0 w-1/3 h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-transparent opacity-20 blur-3xl"
+        style={{ y: y2 }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Experience Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <h2 className="text-5xl md:text-7xl font-bold mb-6">Experience</h2>
+          <p className="text-xl text-gray-400 max-w-2xl">
+            A journey through my professional experiences and growth in the tech industry.
+          </p>
+        </motion.div>
+
+        <div className="space-y-8 mb-32">
+          {experiences.map((experience, index) => (
+            <ExperienceCard key={index} experience={experience} index={index} />
+          ))}
+        </div>
+
+        {/* Education Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <h2 className="text-5xl md:text-7xl font-bold mb-6">Education</h2>
+          <p className="text-xl text-gray-400 max-w-2xl">
+            My academic journey and the knowledge I've acquired along the way.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {formations.map((formation, index) => (
+            <EducationCard key={index} formation={formation} index={index} />
+          ))}
+        </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default AboutJourney;
+export default AboutJourney
