@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useAnimation } from "framer-motion"
+import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import Image from "next/image"
 
@@ -21,7 +21,6 @@ interface ProjectCarouselProps {
 const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
-  const controls = useAnimation()
   const containerRef = useRef<HTMLDivElement>(null)
 
   const nextProject = () => {
@@ -35,10 +34,12 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
   useEffect(() => {
     let interval: NodeJS.Timeout
 
+    const autoAdvance = () => {
+      setCurrentIndex((prev) => (prev + 1) % projects.length)
+    }
+
     if (!isHovered) {
-      interval = setInterval(() => {
-        nextProject()
-      }, 5000)
+      interval = setInterval(autoAdvance, 5000)
     }
 
     return () => {
@@ -46,7 +47,7 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
         clearInterval(interval)
       }
     }
-  }, [isHovered]) // Removed nextProject from dependencies
+  }, [isHovered, projects.length])
 
   const visibleProjects = [
     projects[(currentIndex - 1 + projects.length) % projects.length],

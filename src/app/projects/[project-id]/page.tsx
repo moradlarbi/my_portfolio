@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ExternalLink, Github, X, ChevronLeft, ChevronRight } from "lucide-react"
-import { projects } from "../page"
+import { projects } from "@/data/projects"
 import { useState, useEffect, useCallback } from "react"
 
 const ProjectDetail = () => {

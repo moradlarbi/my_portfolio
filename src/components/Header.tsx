@@ -28,7 +28,7 @@ const Header = () => {
                 href="/contact"
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors"
               >
-                Let's Talk
+                Let&apos;s Talk
               </Link>
             </div>
 
@@ -61,7 +61,7 @@ const Header = () => {
                   className="mx-4 my-3 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-center transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  Let's Talk
+                  Let&apos;s Talk
                 </Link>
               </nav>
             </motion.div>
