@@ -10,16 +10,13 @@ const Header = () => {
 
   return (
     <>
-      {/* Header */}
       <header className="fixed w-full z-50">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo */}
             <Link href="/" className="text-2xl font-bold text-white">
               Portfolio
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               <Link href="/projects" className="text-gray-300 hover:text-white transition-colors">
                 Projects
@@ -32,14 +29,12 @@ const Header = () => {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
             <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </nav>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {isOpen && (
             <motion.div

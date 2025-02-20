@@ -49,8 +49,7 @@ const Contact = () => {
   }
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-black text-white">
-      {/* Background image with parallax effect */}
+    <section className="relative min-h-screen w-full overflow-hidden flex flex-col lg:flex-row items-center justify-center bg-black text-white">
       <motion.div className="absolute inset-0 -z-10" style={{ y: yOffset }}>
         <Image
           src="/images/background.jpg"
@@ -77,7 +76,6 @@ const Contact = () => {
         Let's Start a New Project Together 🚀
       </motion.h1>
 
-      {/* Contact form with smooth animations */}
       <motion.form
         ref={form}
         onSubmit={handleSubmit}
@@ -86,7 +84,6 @@ const Contact = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
       >
-        {/* Name field */}
         <motion.div className="relative">
           <input
             type="text"
@@ -99,7 +96,6 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Email field */}
         <motion.div className="relative">
           <input
             type="email"
@@ -112,7 +108,6 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Message field */}
         <motion.div className="relative">
           <textarea
             name="message"
@@ -125,7 +120,6 @@ const Contact = () => {
           />
         </motion.div>
 
-        {/* Submit button with highlight effect */}
         <motion.button
           type="submit"
           disabled={isSubmitting}
@@ -136,7 +130,6 @@ const Contact = () => {
           {isSubmitting ? "Sending..." : "Send Message"}
         </motion.button>
 
-        {/* Status messages */}
         {submitStatus === "success" && <p className="text-green-500 text-center">Message sent successfully!</p>}
         {submitStatus === "error" && (
           <p className="text-red-500 text-center">Failed to send message. Please try again.</p>

@@ -21,7 +21,24 @@ interface ProjectCarouselProps {
 const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(3) // Default: Show 3 projects
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // Responsive behavior: Adjust visible projects based on screen width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1) // Mobile view
+      } else {
+        setVisibleCount(3) // Default for larger screens
+      }
+    }
+
+    handleResize() // Set initial state
+    window.addEventListener("resize", handleResize)
+    
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const nextProject = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length)
@@ -34,26 +51,20 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    const autoAdvance = () => {
-      setCurrentIndex((prev) => (prev + 1) % projects.length)
-    }
-
     if (!isHovered) {
-      interval = setInterval(autoAdvance, 5000)
+      interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % projects.length)
+      }, 5000)
     }
 
-    return () => {
-      if (interval) {
-        clearInterval(interval)
-      }
-    }
+    return () => clearInterval(interval)
   }, [isHovered, projects.length])
 
-  const visibleProjects = [
-    projects[(currentIndex - 1 + projects.length) % projects.length],
-    projects[currentIndex],
-    projects[(currentIndex + 1) % projects.length],
-  ]
+  // Dynamically select the projects to display
+  const visibleProjects = []
+  for (let i = 0; i < visibleCount; i++) {
+    visibleProjects.push(projects[(currentIndex + i) % projects.length])
+  }
 
   return (
     <section className="relative min-h-screen bg-black text-white py-20">
@@ -77,11 +88,13 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
               {visibleProjects.map((project, idx) => (
                 <motion.div
                   key={`${project.id}-${idx}`}
-                  className={`relative w-[800px] h-[500px] ${idx === 1 ? "z-20 scale-110" : "z-10 opacity-50"}`}
+                  className={`relative w-[800px] h-[500px] ${
+                    idx === Math.floor(visibleCount / 2) ? "z-20 scale-110" : "z-10 opacity-50"
+                  }`}
                   initial={{ scale: 1, y: 0 }}
                   animate={{
-                    scale: idx === 1 ? 1.1 : 1,
-                    y: idx === 1 ? -20 : 0,
+                    scale: idx === Math.floor(visibleCount / 2) ? 1.1 : 1,
+                    y: idx === Math.floor(visibleCount / 2) ? -20 : 0,
                   }}
                   transition={{ duration: 0.5 }}
                   onClick={() => onProjectClick(project)}
@@ -143,4 +156,3 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
 }
 
 export default ProjectCarousel
-

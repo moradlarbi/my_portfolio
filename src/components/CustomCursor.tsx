@@ -7,8 +7,22 @@ const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isPointer, setIsPointer] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768) // Adjust this breakpoint as needed
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (isMobile) return // Don't add event listeners on mobile
+
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
     }
@@ -32,7 +46,9 @@ const CustomCursor = () => {
       document.body.removeEventListener("mouseenter", handleMouseEnter)
       document.body.removeEventListener("mouseleave", handleMouseLeave)
     }
-  }, [position.x, position.y])
+  }, [position.x, position.y, isMobile])
+
+  if (isMobile) return null // Don't render the custom cursor on mobile
 
   return (
     <motion.div
