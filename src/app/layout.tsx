@@ -4,6 +4,7 @@ import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +37,7 @@ export default function RootLayout({
         {/* Le conteneur principal doit prendre tout l'espace disponible */}
         <main className="flex-grow">
           {children}
+          <Analytics />
         </main>
         <Footer />
       </body>
