@@ -1,5 +1,6 @@
 import AboutJourney from "@/components/AboutJourney";
 import AnimatedLink from "@/components/AnimatedLink";
+import Certificates from "@/components/Certificates";
 import Landing from "@/components/Landing";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Landing />
         <AboutJourney />
+        <Certificates />
       </main>
       
     </div>
