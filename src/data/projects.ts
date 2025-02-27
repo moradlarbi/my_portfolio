@@ -29,8 +29,8 @@ export const projects = [
         "Final year project for Master's in Software Engineering. This system includes an admin application for managing zones, collection points, and bins, as well as a dedicated application for delivery personnel. Thanks to an operations research (OR) algorithm integrated with the Google Maps API, the application optimizes routes for delivery personnel. Additionally, a prediction model based on historical waste generation data in each zone allows for more efficient planning of collection point installation.",
       stack: ["Express.js", "Python", "Flask", "Pandas", "NumPy", "React", "MUI", "Google Maps API"],
       tag: ["Back-end", "Front-end", "operational-research", "Web-development", "machine-learning"],
-      image: "/images/project3.webp",
-      gallery: ["/images/waste-1.webp", "/images/waste-2.webp", "/images/waste-3.webp"],
+      image: "/images/waste1.png",
+      gallery: ["/images/waste2.png","/images/waste3.png","/images/waste4.png","/images/waste5.png"],
       githubRepos: [
         { name: "admin", url: "https://github.com/moradlarbi/node_app" },
         { name: "Model", url: "https://github.com/moradlarbi/model_waste_prediction" }
