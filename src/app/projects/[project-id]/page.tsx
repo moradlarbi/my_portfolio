@@ -5,8 +5,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ExternalLink, Github, X, ChevronLeft, ChevronRight } from "lucide-react"
-import { projects } from "@/data/projects"
+import ProjectsPage from "../page"
 import { useState, useEffect, useCallback } from "react"
+import { projects } from "@/data/projects"
 
 const ProjectDetail = () => {
   const { "project-id": projectId } = useParams()
@@ -102,7 +103,7 @@ const ProjectDetail = () => {
             transition={{ delay: 0.4 }}
             className="flex flex-wrap gap-2"
           >
-            {project.stack.map((tech, index) => (
+            {project.stack.map((tech: string, index: number) => (
               <span key={index} className="px-4 py-2 bg-white/20 rounded-full text-sm text-white">
                 {tech}
               </span>
@@ -127,7 +128,7 @@ const ProjectDetail = () => {
           {/* Project Gallery */}
           <h3 className="text-2xl font-bold my-8">Project Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {project.gallery.map((image, index) => (
+            {project.gallery.map((image : any, index: number) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -211,26 +212,26 @@ const ProjectDetail = () => {
                 objectFit="contain"
               />
               <button
-                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors duration-300"
+                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors duration-300 bg-black/50 p-2 rounded-full"
                 onClick={closeCarousel}
               >
                 <X size={24} />
               </button>
               <button
-                className="absolute left-4 text-white hover:text-gray-300 transition-colors duration-300"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors duration-300 bg-black/50 p-2 rounded-full"
                 onClick={prevImage}
               >
                 <ChevronLeft size={24} />
               </button>
               <button
-                className="absolute right-4 text-white hover:text-gray-300 transition-colors duration-300"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors duration-300 bg-black/50 p-2 rounded-full"
                 onClick={nextImage}
               >
                 <ChevronRight size={24} />
               </button>
             </div>
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-              {project.gallery.map((_, index) => (
+              {project.gallery.filter((_: any, i: number)=> i > 3).map((_ : any, index: number) => (
                 <button
                   key={index}
                   className={`w-2 h-2 rounded-full ${index === currentImageIndex ? "bg-white" : "bg-gray-500"}`}

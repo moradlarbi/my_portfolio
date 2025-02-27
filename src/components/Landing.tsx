@@ -93,15 +93,13 @@ const Landing = () => {
     <section className="relative min-h-screen w-full overflow-hidden bg-black">
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
 
-      {/* Gradient Background */}
       <motion.div
         className="absolute top-0 right-0 w-1/2 h-screen bg-gradient-to-bl from-purple-600 via-blue-600 to-transparent opacity-20 blur-3xl"
         style={{ y: backgroundY }}
       />
 
-      {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex flex-col justify-center">
-        {/* Awards/Recognition */}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,10 +109,9 @@ const Landing = () => {
           <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">
             Full Stack Developer
           </span>
-          <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">UI/UX Enthusiast</span>
+          <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">web3 enthusiast</span>
         </motion.div>
 
-        {/* Main Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,7 +135,6 @@ const Landing = () => {
           </p>
         </motion.div>
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,7 +161,6 @@ const Landing = () => {
           </Link>
         </motion.div>
 
-        {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

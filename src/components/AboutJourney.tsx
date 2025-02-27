@@ -40,8 +40,8 @@ const experiences = [
       "Report creation using Tableau",
       "ETL development for reporting with Pentaho",
     ],
-    stack: ["Tableau", "Pentaho", "Project Management", "Sharepoint", "Excel"],
-    image: "/images/kbdev.webp",
+    stack: ["Unix shell","rsyslog","Tableau", "Pentaho", "Project Management", "Sharepoint", "Excel"],
+    image: "/images/sfr-logo.png",
   },
 ]
 
@@ -58,6 +58,7 @@ const formations = [
       "Machine Learning",
     ],
     modules_mineurs: ["Networks", "Analysis and algebra", "Electronics"],
+    logo: "/images/esi.png",
   },
   {
     formation: "MIAGE Master - Web Engineering",
@@ -65,6 +66,7 @@ const formations = [
     periode: "2023 - 2025",
     modules_majeurs: ["Web development", "Project management", "Software architecture", "Databases"],
     modules_mineurs: ["Financial management", "Digital law", "Operational research", "Data analysis"],
+    logo: "/images/paris-saclay.png",
   },
 ]
 
@@ -123,10 +125,23 @@ const EducationCard = ({ formation, index }: { formation: (typeof formations)[0]
       transition={{ duration: 0.8, delay: index * 0.2 }}
       className="bg-white/5 rounded-xl p-8 backdrop-blur-sm"
     >
-      <h3 className="text-2xl font-bold text-white mb-2">{formation.formation}</h3>
-      <p className="text-purple-400 mb-4">
-        {formation.école} - {formation.periode}
-      </p>
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h3 className="text-2xl font-bold text-white mb-2">{formation.formation}</h3>
+          <p className="text-purple-400">
+            {formation.école} - {formation.periode}
+          </p>
+        </div>
+        <div className="relative w-20 h-20 bg-white rounded-full p-2 flex items-center justify-center">
+          <Image
+            src={formation.logo || "/placeholder.svg"}
+            alt={`${formation.école} logo`}
+            width={60}
+            height={60}
+            objectFit="contain"
+          />
+        </div>
+      </div>
 
       <div className="space-y-4">
         <div>

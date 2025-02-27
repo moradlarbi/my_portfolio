@@ -29,7 +29,11 @@ const CustomCursor = () => {
 
     const updateCursorType = () => {
       const target = document.elementFromPoint(position.x, position.y)
-      setIsPointer(window.getComputedStyle(target as Element).cursor === "pointer")
+      if (target instanceof Element) {
+        setIsPointer(window.getComputedStyle(target).cursor === "pointer")
+      } else {
+        setIsPointer(false)
+      }
     }
 
     const handleMouseEnter = () => setIsHidden(false)
