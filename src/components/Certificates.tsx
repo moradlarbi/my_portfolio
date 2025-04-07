@@ -43,6 +43,15 @@ const certificates: Certificate[] = [
     type: "pdf",
     image: "/images/gdg.jpg",
   },
+  {
+    id: "4",
+    title: "TOEIC Certificate",
+    issuer: "ETS GLOBAL BV Certificate",
+    date: "2025",
+    credential: "toeic.pdf",
+    type: "pdf",
+    image: "/images/toeic.png",
+  },
 ]
 
 const Certificates = () => {
@@ -72,7 +81,7 @@ const Certificates = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {certificates.map((certificate) => (
             <motion.div
               key={certificate.id}
