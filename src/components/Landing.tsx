@@ -122,7 +122,7 @@ const Landing = () => {
             Creating{" "}
             <span className="inline-block">
               <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-blue-500 text-transparent bg-clip-text">
-                immersive
+                functionnal
               </span>
             </span>
             <br />
@@ -130,8 +130,7 @@ const Landing = () => {
           </h1>
 
           <p className="max-w-2xl text-xl text-gray-400 mt-6">
-            Full Stack Developer specializing in building exceptional digital experiences that combine beautiful design
-            with powerful functionality.
+          Full Stack Developer & Project Engineer with a strong focus on building dynamic, data-driven web applications
           </p>
         </motion.div>
 

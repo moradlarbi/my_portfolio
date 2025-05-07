@@ -54,7 +54,7 @@ export const projects = [
       ],
       tag: ["Back-end", "Front-end", "message broker", "operational-research"],
       image: "/images/schedaut1.png",
-      gallery: ["/images/schedaut2.png", "/images/schedaut3.png", "/images/schedaut4.png"],
+      gallery: ["/images/schedaut1.png","/images/schedaut2.png", "/images/schedaut3.png", "/images/schedaut4.png"],
       githubRepos: [
         { name: "front", url: "https://github.com/moradlarbi/SCHEDAUT_Front" },
         { name: "back", url: "https://github.com/moradlarbi/SCHEDAUT_Back" }

@@ -6,9 +6,9 @@ import Image from "next/image"
 
 const experiences = [
   {
-    poste: "Dev Department Manager",
+    poste: "Actif membre -> Dev Department Manager",
     entreprise: "ETIC (student club)",
-    periode: "2020 - 2023",
+    periode: "2020 - 2023 (3 years)",
     missions: [
       "Website development for club events",
       "Workshops presentation (Git, React) and member training",
@@ -20,7 +20,7 @@ const experiences = [
   {
     poste: "Web Development Internship",
     entreprise: "ASCA: Algerian Civil Society Association(Algiers)",
-    periode: "May - September 2021",
+    periode: "May - September 2021 (3 months)",
     missions: [
       "Development with modern technologies: PHP Symphony, Vue js,Bootstrap",
       "Database management with Postgresql",
@@ -30,7 +30,7 @@ const experiences = [
     image: "/images/morad.webp",
   },
   {
-    poste: "Intern -> Front-end Web Developer",
+    poste: "Front-end Web Developer Remote (15 months)",
     entreprise: "KB Dev (Oran)",
     periode: "May 2022 - December 2023",
     missions: [
@@ -43,9 +43,9 @@ const experiences = [
     image: "/images/kb.jpg",
   },
   {
-    poste: "Intern -> Project Manager Apprentice",
+    poste: "Project Manager",
     entreprise: "SFR",
-    periode: "April 2024 - September 2025",
+    periode: "April 2024 - September 2025 (16 months)",
     missions: [
       "Design of a project management tool",
       "Modeling of project management processes",

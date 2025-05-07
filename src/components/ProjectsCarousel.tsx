@@ -72,7 +72,7 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
         <div className="mb-20">
           <h2 className="text-5xl md:text-7xl font-bold mb-6">Selected Works</h2>
           <p className="text-xl text-gray-400 max-w-2xl">
-            Explore our portfolio of innovative digital solutions that showcase our expertise in creating immersive and
+            Explore my portfolio of innovative digital solutions that showcase my expertise in creating
             functional web experiences.
           </p>
         </div>
