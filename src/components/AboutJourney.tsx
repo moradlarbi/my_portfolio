@@ -34,12 +34,12 @@ const experiences = [
     entreprise: "KB Dev (Oran)",
     periode: "May 2022 - December 2023",
     missions: [
-      "Development with modern technologies: Strapi.js, Refine.js, React, Next.js, Tailwind CSS, MUI",
+      "Development with modern technologies: Strapi, Refine.js, React, Next.js, Tailwind CSS, MUI",
       "Application testing with SonarQube and Selenium",
       "Collaboration using Scrum, Git, and Jira for an Agile approach",
       "Participation in continuous deployment (CI/CD) with GitHub Actions and Docker",
     ],
-    stack: ["React", "Next.js", "Strapi.js", "Refine.js", "Github", "Agile", "Figma", "Jira", "Wordpress","MySQL"],
+    stack: ["React", "Next.js", "Strapi", "Refine.js", "Github", "Agile", "Figma", "Jira", "Wordpress","MySQL"],
     image: "/images/kb.jpg",
   },
   {
