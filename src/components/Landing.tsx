@@ -109,7 +109,7 @@ const Landing = () => {
           <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">
             Full Stack Developer
           </span>
-          <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">web3 enthusiast</span>
+          <span className="text-gray-400 text-sm border border-gray-800 rounded-full px-4 py-1">Project Manager</span>
         </motion.div>
 
         <motion.div
@@ -130,7 +130,7 @@ const Landing = () => {
           </h1>
 
           <p className="max-w-2xl text-xl text-gray-400 mt-6">
-          Full Stack Developer & Project Engineer with a strong focus on building dynamic, data-driven web applications
+          Hybrid IT profile, at the intersection of development, information systems, and project management.
           </p>
         </motion.div>
 

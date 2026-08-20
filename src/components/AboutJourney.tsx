@@ -30,9 +30,9 @@ const experiences = [
     image: "/images/morad.webp",
   },
   {
-    poste: "Front-end Web Developer Remote (15 months)",
+    poste: "Front-end Web Developer Remote ",
     entreprise: "KB Dev (Oran)",
-    periode: "May 2022 - December 2023",
+    periode: "May 2022 - December 2023 (15 months)",
     missions: [
       "Development with modern technologies: Strapi, Refine.js, React, Next.js, Tailwind CSS, MUI",
       "Application testing with SonarQube and Selenium",
@@ -43,7 +43,7 @@ const experiences = [
     image: "/images/kb.jpg",
   },
   {
-    poste: "Project Manager",
+    poste: "Project Management Apprentice",
     entreprise: "SFR",
     periode: "April 2024 - September 2025 (16 months)",
     missions: [
@@ -55,13 +55,40 @@ const experiences = [
     stack: ["Unix shell","rsyslog","Tableau", "Pentaho", "Project Management", "Sharepoint", "Excel"],
     image: "/images/sfr-logo.png",
   },
+  {
+    poste: "Chef de projet SI transverse",
+    entreprise: "SFR",
+    periode: "September 2025 - Present",
+    missions: [
+      "Pilotage de projets SI transverses",
+      "Cadrage et pré-étude des besoins métier",
+      "Coordination entre les équipes métier, SI et techniques",
+      "Suivi des phases de conception, développement, recette et mise en production",
+      "Analyse des impacts SI et identification des solutions techniques",
+      "Suivi des charges, délais, risques et dépendances projet",
+      "Animation des ateliers et suivi des actions",
+    ],
+    stack: [
+      "Project Management",
+       "FTTH",
+      "Telecom",
+      "MS Project",
+      "Jira",
+      "Confluence",
+      "MS Office",
+      "Agile",
+    ],
+    image: "/images/photo_cdp.jpeg",
+  },
+
 ]
 
 const formations = [
   {
     formation: "Software Engineering",
-    école: "National School of Computer Science (ESI) Algiers",
+    école: "National School of Computer Science (ESI)",
     periode: "2019 - 2023",
+    ranking: "#1 school of computer science in Algeria",
     modules_majeurs: [
       "Algorithms and data structures",
       "Object-oriented programming",
@@ -76,6 +103,7 @@ const formations = [
     formation: "MIAGE Master - Web Engineering",
     école: "Paris-Saclay University (Évry)",
     periode: "2023 - 2025",
+    ranking:"#13 shanghai ranking 2026",
     modules_majeurs: ["Web development", "Project management", "Software architecture", "Databases"],
     modules_mineurs: ["Financial management", "Digital law", "Operational research", "Data analysis"],
     logo: "/images/paris-saclay.png",
@@ -112,7 +140,7 @@ const ExperienceCard = ({ experience, index }: { experience: (typeof experiences
           ))}
         </div>
       </div>
-      <div className="relative h-[200px] md:h-full rounded-xl overflow-hidden">
+      <div className="relative w-full h-48 md:w-80 md:h-72 md:justify-self-center rounded-xl overflow-hidden bg-white/5">
         <Image
           src={experience.image || "/placeholder.svg"}
           alt={experience.entreprise}
@@ -141,8 +169,9 @@ const EducationCard = ({ formation, index }: { formation: (typeof formations)[0]
         <div>
           <h3 className="text-2xl font-bold text-white mb-2">{formation.formation}</h3>
           <p className="text-purple-400">
-            {formation.école} - {formation.periode}
+            {formation.école} - {formation.periode} 
           </p>
+          <p className="text-purple-400">{formation.ranking}</p>
         </div>
         <div className="relative w-20 h-20 bg-white rounded-full p-2 flex items-center justify-center">
           <Image
